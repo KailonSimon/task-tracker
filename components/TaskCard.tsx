@@ -1,11 +1,11 @@
 import React from "react";
 import { useState } from "react";
 import { useAppDispatch } from "../hooks";
-import { removeTask, toggleTaskCompleted } from "../features/tasks/taskSlice";
-import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { toggleTaskCompleted } from "../features/tasks/taskSlice";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
 import { Task } from "../features/tasks/taskSlice";
 import TaskDetailModal from "./TaskDetailModal";
+import TaskCardMenu from "./TaskCardMenu";
 
 type Props = {
   task: Task;
@@ -14,10 +14,6 @@ type Props = {
 export default function TaskCard({ task }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useAppDispatch();
-
-  const handleRemoveClick = () => {
-    dispatch(removeTask(task.id));
-  };
 
   const handleCompletedClick = () => {
     dispatch(toggleTaskCompleted(task.id));
@@ -85,7 +81,7 @@ export default function TaskCard({ task }: Props) {
         </div>
 
         <div className="absolute top-3 right-3 flex flex-col gap-2">
-          <button
+          {/*<button
             className="h-6 w-6 aspect-square rounded bg-blue-700 flex justify-center items-center"
             onClick={openModal}
           >
@@ -96,7 +92,8 @@ export default function TaskCard({ task }: Props) {
             onClick={handleRemoveClick}
           >
             <AiFillDelete />
-          </button>
+      </button>*/}
+          <TaskCardMenu task={task} handleEditClick={openModal} />
         </div>
       </div>
 

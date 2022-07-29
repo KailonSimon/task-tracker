@@ -33,9 +33,9 @@ function List({ tasks }: Props) {
   const dispatch = useAppDispatch();
 
   const handleListUpdate = (newArr: Task[]) => {
-    console.log("updated list!");
     dispatch(updateTasksList(newArr));
   };
+
   return (
     <>
       {tasks.length > 0 ? (
@@ -46,7 +46,7 @@ function List({ tasks }: Props) {
           animate="visible"
           exit={{ x: 100, opacity: 0 }}
           axis="y"
-          className="flex flex-col gap-4"
+          className="flex flex-col gap-4 w-full"
           variants={listVariants}
         >
           <AnimatePresence>

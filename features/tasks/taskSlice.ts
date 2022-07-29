@@ -41,6 +41,14 @@ export const taskSlice = createSlice({
       );
       state.tasks[index] = { ...action.payload };
     },
+    duplicateTask: (state, action: PayloadAction<number>) => {
+      const task = state.tasks.find((task: Task) => task.id === action.payload);
+      if (!task) {
+        console.error("No matching item");
+        return;
+      }
+      state.tasks[state.tasks.length] = { ...task, id: state.tasks.length + 1 };
+    },
     removeTask: (state, action: PayloadAction<number>) => {
       state.tasks = state.tasks.filter(
         (item: Task) => item.id !== action.payload
@@ -66,6 +74,7 @@ export const taskSlice = createSlice({
 export const {
   addTask,
   updateTask,
+  duplicateTask,
   removeTask,
   toggleTaskCompleted,
   updateTasksList,

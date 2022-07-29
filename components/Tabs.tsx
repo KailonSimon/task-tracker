@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Tab } from "@headlessui/react";
 import List from "./List";
 
@@ -39,7 +38,7 @@ export default function Tabs({ tabs }: Props) {
               key={idx}
               className={classNames(
                 "p-3",
-                "ring-white ring-opacity-60 focus:outline-none"
+                "ring-white ring-opacity-60 focus:outline-none flex justify-center"
               )}
             >
               <List tasks={items} />
