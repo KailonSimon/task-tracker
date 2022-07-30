@@ -39,7 +39,7 @@ export default function TaskCardMenu({ task, handleEditClick }: Props) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-blue-600 rounded-xl bg-blue-700 shadow-lg ring-1 ring-zinc-100 ring-opacity-10 focus:outline-none z-50">
+        <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-blue-600 rounded-xl bg-blue-700 shadow-lg ring-2 ring-blue-700 ring-opacity-5 focus:outline-none z-50">
           <div className="px-1 py-1 ">
             <Menu.Item>
               {({ active }) => (

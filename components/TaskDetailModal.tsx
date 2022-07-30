@@ -131,6 +131,7 @@ function TaskDetailModal({ type, task, isOpen, closeModal }: Props) {
                       type="text"
                       id="task-name"
                       name="name"
+                      required
                       value={inputState.name}
                       onChange={handleNameChange}
                       className="px-4 py-2 rounded-lg focus:outline-none hover:shadow bg-stone-800"

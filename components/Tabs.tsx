@@ -37,7 +37,7 @@ export default function Tabs({ tabs }: Props) {
             <Tab.Panel
               key={idx}
               className={classNames(
-                "p-3",
+                "py-3",
                 "ring-white ring-opacity-60 focus:outline-none flex justify-center"
               )}
             >
