@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 import formatISO from "date-fns/formatISO";
+import { nanoid } from "nanoid";
 
 export type Task = {
-  id: number;
+  id: string;
   name: string;
   description: string;
   priorityLevel: string;
@@ -27,7 +28,7 @@ export const taskSlice = createSlice({
     addTask: (state, action: PayloadAction<any>) => {
       const { name, description, priorityLevel } = action.payload;
       state.tasks.push({
-        id: state.tasks.length + 1,
+        id: nanoid(),
         name,
         description,
         priorityLevel,
@@ -41,20 +42,20 @@ export const taskSlice = createSlice({
       );
       state.tasks[index] = { ...action.payload };
     },
-    duplicateTask: (state, action: PayloadAction<number>) => {
+    duplicateTask: (state, action: PayloadAction<string>) => {
       const task = state.tasks.find((task: Task) => task.id === action.payload);
       if (!task) {
         console.error("No matching item");
         return;
       }
-      state.tasks[state.tasks.length] = { ...task, id: state.tasks.length + 1 };
+      state.tasks[state.tasks.length] = { ...task, id: nanoid() };
     },
-    removeTask: (state, action: PayloadAction<number>) => {
+    removeTask: (state, action: PayloadAction<string>) => {
       state.tasks = state.tasks.filter(
         (item: Task) => item.id !== action.payload
       );
     },
-    toggleTaskCompleted: (state, action: PayloadAction<number>) => {
+    toggleTaskCompleted: (state, action: PayloadAction<string>) => {
       const task = state.tasks.find((task: Task) => task.id === action.payload);
       if (!task) {
         console.error("No matching item");
@@ -82,7 +83,7 @@ export const {
 } = taskSlice.actions;
 
 const selectTasks = (state: RootState) => state.tasks.tasks;
-const selectTasksByID = (state: RootState, id: number) => {
+const selectTasksByID = (state: RootState, id: string) => {
   state.tasks.tasks.find((task: Task) => task.id === id);
 };
 const selectCompletedTasks = (state: RootState) =>

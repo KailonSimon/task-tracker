@@ -26,19 +26,11 @@ const Home: NextPage = () => {
   const completedItems = useAppSelector(selectCompletedTasks);
   const [filter, setFilter] = useState("");
 
-  const tabs = {
-    All: filterList(fullList, filter),
-    "In Progress": filterList(inProgressItems, filter),
-    Completed: filterList(completedItems, filter),
-  };
-
-  useEffect(() => {
-    console.log(filter);
-  }, [filter]);
-
-  useEffect(() => {
-    console.log(filterList(fullList, filter));
-  }, [fullList, filter]);
+  const tabs = [
+    { title: "All", items: filterList(fullList, filter) },
+    { title: "In Progress", items: filterList(inProgressItems, filter) },
+    { title: "Completed", items: filterList(completedItems, filter) },
+  ];
 
   return (
     <div>
