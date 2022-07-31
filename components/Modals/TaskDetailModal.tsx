@@ -1,7 +1,7 @@
 import { useState, Fragment, ChangeEvent, KeyboardEvent } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useAppDispatch } from "../hooks";
-import { addTask, Task, updateTask } from "../features/tasks/taskSlice";
+import { useAppDispatch } from "../../hooks";
+import { addTask, Task, updateTask } from "../../features/tasks/taskSlice";
 
 type Props = {
   type: string;

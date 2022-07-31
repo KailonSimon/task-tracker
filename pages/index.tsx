@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Layout from "../components/Layout";
-import AddTask from "../components/AddTask";
+import TaskListControls from "../components/TaskListControls";
 import Tabs from "../components/Tabs";
 import { useAppSelector } from "../hooks";
 import {
@@ -24,7 +24,7 @@ const Home: NextPage = () => {
     <div>
       <Layout>
         <div className="p-4 w-full flex flex-col items-center">
-          <AddTask />
+          <TaskListControls />
           <Tabs tabs={tabs} />
         </div>
       </Layout>

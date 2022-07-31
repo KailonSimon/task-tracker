@@ -4,7 +4,7 @@ import { useAppDispatch } from "../hooks";
 import { toggleTaskCompleted } from "../features/tasks/taskSlice";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
 import { Task } from "../features/tasks/taskSlice";
-import TaskDetailModal from "./TaskDetailModal";
+import TaskDetailModal from "./Modals/TaskDetailModal";
 import TaskCardMenu from "./TaskCardMenu";
 
 type Props = {
@@ -50,7 +50,7 @@ export default function TaskCard({ task }: Props) {
         }`}
       >
         <div
-          className={`${priorityLevel()} rounded-l-[10px] w-3 relative left-0 top-0`}
+          className={`${priorityLevel()} rounded-l-[10px] w-3 relative left-0 top-0 transition-all`}
         />
 
         <div className="flex flex-col justify-between flex-1 w-full pr-8 py-4 gap-2">
