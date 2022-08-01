@@ -3,9 +3,10 @@ import { useState } from "react";
 import { useAppDispatch } from "../hooks";
 import { toggleTaskCompleted } from "../features/tasks/taskSlice";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
-import { Task } from "../features/tasks/taskSlice";
-import TaskDetailModal from "./Modals/TaskDetailModal";
+import { Task, updateTask } from "../features/tasks/taskSlice";
 import TaskCardMenu from "./TaskCardMenu";
+import Modal from "./Modal";
+import TaskDetailsForm from "./TaskDetailsForm";
 
 type Props = {
   task: Task;
@@ -19,12 +20,28 @@ export default function TaskCard({ task }: Props) {
     dispatch(toggleTaskCompleted(task.id));
   };
 
-  const closeModal = () => {
+  const handleEditClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  const openModal = () => {
-    setIsModalOpen(true);
+  const handleEditTask = (
+    name: string,
+    description: string,
+    priorityLevel: string
+  ) => {
+    dispatch(
+      updateTask({
+        ...task,
+        name,
+        description,
+        priorityLevel,
+      })
+    );
+    handleCloseModal();
   };
 
   const priorityLevel = () => {
@@ -90,17 +107,24 @@ export default function TaskCard({ task }: Props) {
           </div>
 
           <div className="absolute top-3 right-3 flex flex-col gap-2">
-            <TaskCardMenu task={task} handleEditClick={openModal} />
+            <TaskCardMenu task={task} handleEditClick={handleEditClick} />
           </div>
         </div>
       </div>
 
-      <TaskDetailModal
-        type="Edit"
-        task={task}
+      <Modal
+        title="Edit Task"
         isOpen={isModalOpen}
-        closeModal={closeModal}
-      />
+        onCancel={handleCloseModal}
+        onConfirm={handleCloseModal}
+        showControls={false}
+      >
+        <TaskDetailsForm
+          task={task}
+          handleSubmit={handleEditTask}
+          handleCancel={handleCloseModal}
+        />
+      </Modal>
     </>
   );
 }

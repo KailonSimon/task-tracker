@@ -4,7 +4,7 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { duplicateTask, Task } from "../features/tasks/taskSlice";
 import { useAppDispatch } from "../hooks";
 import { removeTask } from "../features/tasks/taskSlice";
-import ConfirmationModal from "./Modals/ConfirmationModal";
+import Modal from "./Modal";
 
 type Props = {
   task: Task;
@@ -13,10 +13,10 @@ type Props = {
 
 export default function TaskCardMenu({ task, handleEditClick }: Props) {
   const dispatch = useAppDispatch();
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const handleDeleteClick = () => {
     dispatch(removeTask(task.id));
-    setIsConfirmationModalOpen(false);
+    setIsDeleteModalOpen(false);
   };
   const handleDuplicateClick = () => {
     dispatch(duplicateTask(task.id));
@@ -96,7 +96,7 @@ export default function TaskCardMenu({ task, handleEditClick }: Props) {
               <Menu.Item>
                 {({ active }) => (
                   <button
-                    onClick={() => setIsConfirmationModalOpen(true)}
+                    onClick={() => setIsDeleteModalOpen(true)}
                     className={`${
                       active ? "bg-white/[0.12] text-white" : "text-blue-100"
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -120,13 +120,16 @@ export default function TaskCardMenu({ task, handleEditClick }: Props) {
           </Menu.Items>
         </Transition>
       </Menu>
-      <ConfirmationModal
+      <Modal
         title={`Delete "${task.name}"?`}
-        description="This will permanently delete the task!"
-        isOpen={isConfirmationModalOpen}
-        confirm={handleDeleteClick}
-        cancel={() => setIsConfirmationModalOpen(false)}
-      />
+        isOpen={isDeleteModalOpen}
+        onConfirm={handleDeleteClick}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        confirmButtonText="Delete"
+        showControls
+      >
+        <p>This will permanently delete the task!</p>
+      </Modal>
     </>
   );
 }

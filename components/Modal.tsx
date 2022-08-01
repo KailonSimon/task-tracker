@@ -1,24 +1,30 @@
-import { useState, Fragment, ChangeEvent, KeyboardEvent } from "react";
+import { ReactNode, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 type Props = {
   title: string;
-  description: string;
+  children: ReactNode;
   isOpen: boolean;
-  confirm: () => void;
-  cancel: () => void;
+  onConfirm: () => void;
+  onCancel: () => void;
+  confirmButtonText?: string;
+  cancelButtonText?: string;
+  showControls?: Boolean;
 };
 
-function ConfirmationModal({
+export default function Modal({
   title,
-  description,
+  children,
   isOpen,
-  confirm,
-  cancel,
+  onConfirm,
+  onCancel,
+  confirmButtonText = "Confirm",
+  cancelButtonText = "Cancel",
+  showControls,
 }: Props) {
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={cancel}>
+      <Dialog as="div" className="relative z-10" onClose={onCancel}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -52,23 +58,23 @@ function ConfirmationModal({
                 >
                   {title}
                 </Dialog.Title>
-                <div className="mt-2">
-                  <p>{description}</p>
-                </div>
-                <div className="mt-4 flex gap-4 justify-between">
-                  <button
-                    className="w-full py-3 text-blue-700 rounded-lg border-2 border-blue-700 hover:shadow hover:opacity-75 inline-flex space-x-2 items-center justify-center transition"
-                    onClick={cancel}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    className="w-full py-3 font-semibold text-white bg-blue-700 disabled:bg-zinc-800 hover:bg-blue-500 rounded-lg hover:shadow inline-flex space-x-2 items-center justify-center transition"
-                    onClick={confirm}
-                  >
-                    Confirm
-                  </button>
-                </div>
+                <div className="my-2">{children}</div>
+                {showControls && (
+                  <div className="mt-4 flex gap-4 justify-between">
+                    <button
+                      className="w-full py-3 text-blue-700 rounded-lg border-2 border-blue-700 hover:shadow hover:opacity-75 inline-flex space-x-2 items-center justify-center transition"
+                      onClick={onCancel}
+                    >
+                      {cancelButtonText}
+                    </button>
+                    <button
+                      className="w-full py-3 font-semibold text-white bg-blue-700 disabled:bg-zinc-800 hover:bg-blue-500 rounded-lg hover:shadow inline-flex space-x-2 items-center justify-center transition"
+                      onClick={onConfirm}
+                    >
+                      {confirmButtonText}
+                    </button>
+                  </div>
+                )}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -77,5 +83,3 @@ function ConfirmationModal({
     </Transition>
   );
 }
-
-export default ConfirmationModal;
