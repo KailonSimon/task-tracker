@@ -9,7 +9,7 @@ export default async function handle(
 ) {
   const session = await unstable_getServerSession(req, res, authOptions);
   if (!session) {
-    res.status(401);
+    res.status(401).json({ error: "Must be logged in" });
     return;
   }
   switch (req.method) {
