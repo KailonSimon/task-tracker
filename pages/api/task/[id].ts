@@ -1,5 +1,3 @@
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "../auth/[...nextauth]";
 import prisma from "../../../lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { nanoid } from "nanoid";

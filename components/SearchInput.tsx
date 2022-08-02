@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { ChangeEvent } from "react";
 
 type Props = {
   filter: string;
