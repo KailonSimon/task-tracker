@@ -1,12 +1,17 @@
 import { useState, ChangeEvent, KeyboardEvent } from "react";
 import { Task } from "../features/tasks/taskSlice";
+import { nanoid } from "nanoid";
+import formatISO from "date-fns/formatISO";
+
+const priorityLevels = [
+  { value: "1", text: "Critical" },
+  { value: "2", text: "Significant" },
+  { value: "3", text: "Medium" },
+  { value: "4", text: "Low" },
+];
 
 type Props = {
-  handleSubmit: (
-    name: string,
-    description: string,
-    priorityLevel: string
-  ) => void;
+  handleSubmit: <T extends Task>(task: T) => void;
   handleCancel: () => void;
   task?: Task;
 };
@@ -21,13 +26,6 @@ export default function TaskDetailsForm({
     description: task?.description || "",
     priorityLevel: task?.priorityLevel || "1",
   });
-
-  const priorityLevels = [
-    { value: "1", text: "Critical" },
-    { value: "2", text: "Significant" },
-    { value: "3", text: "Medium" },
-    { value: "4", text: "Low" },
-  ];
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -61,11 +59,14 @@ export default function TaskDetailsForm({
           return;
         } else {
           e.preventDefault();
-          handleSubmit(
-            inputState.name,
-            inputState.description,
-            inputState.priorityLevel
-          );
+          handleSubmit<Task>({
+            id: nanoid(),
+            name: inputState.name,
+            description: inputState.description,
+            priorityLevel: inputState.priorityLevel,
+            dateAdded: formatISO(new Date()),
+            isCompleted: false,
+          });
         }
 
       default:
@@ -130,11 +131,14 @@ export default function TaskDetailsForm({
         <button
           className="w-full py-3 text-white bg-blue-700 disabled:opacity-50 hover:bg-blue-500 disabled:bg-blue-700 rounded-lg hover:shadow inline-flex space-x-2 items-center justify-center"
           onClick={() =>
-            handleSubmit(
-              inputState.name,
-              inputState.description,
-              inputState.priorityLevel
-            )
+            handleSubmit<Task>({
+              id: nanoid(),
+              name: inputState.name,
+              description: inputState.description,
+              priorityLevel: inputState.priorityLevel,
+              dateAdded: formatISO(new Date()),
+              isCompleted: false,
+            })
           }
           disabled={!inputState.name}
         >

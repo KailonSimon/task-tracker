@@ -46,7 +46,7 @@ function List({ tasks }: Props) {
           animate="visible"
           exit={{ x: 100, opacity: 0 }}
           axis="y"
-          className="flex flex-col gap-4 w-full"
+          className="flex flex-col gap-4 w-full px-4 md:px-0"
           variants={listVariants}
         >
           <AnimatePresence>

@@ -3,10 +3,15 @@ import { useState } from "react";
 import { useAppDispatch } from "../hooks";
 import { toggleTaskCompleted } from "../features/tasks/taskSlice";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
-import { Task, updateTask } from "../features/tasks/taskSlice";
+import {
+  Task,
+  updateTask as unauthenticatedUpdateTask,
+} from "../features/tasks/taskSlice";
 import TaskCardMenu from "./TaskCardMenu";
 import Modal from "./Modal";
 import TaskDetailsForm from "./TaskDetailsForm";
+import { useUpdateTaskMutation } from "../services/tasks";
+import { useSession } from "next-auth/react";
 
 type Props = {
   task: Task;
@@ -14,10 +19,16 @@ type Props = {
 
 export default function TaskCard({ task }: Props) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { data: session } = useSession();
+  const [updateTask] = useUpdateTaskMutation();
   const dispatch = useAppDispatch();
 
   const handleCompletedClick = () => {
-    dispatch(toggleTaskCompleted(task.id));
+    if (session) {
+      updateTask({ isCompleted: !task.isCompleted, id: task.id });
+    } else {
+      dispatch(toggleTaskCompleted(task.id));
+    }
   };
 
   const handleEditClick = () => {
@@ -28,21 +39,14 @@ export default function TaskCard({ task }: Props) {
     setIsModalOpen(false);
   };
 
-  const handleEditTask = (
-    name: string,
-    description: string,
-    priorityLevel: string
-  ) => {
-    dispatch(
-      updateTask({
-        ...task,
-        name,
-        description,
-        priorityLevel,
-      })
-    );
+  function handleEditTask<T>(data: T): void {
+    if (session) {
+      updateTask({ ...data, id: task.id });
+    } else {
+      dispatch(unauthenticatedUpdateTask({ ...data, id: task.id }));
+    }
     handleCloseModal();
-  };
+  }
 
   const priorityLevel = () => {
     switch (task.priorityLevel) {
@@ -95,7 +99,7 @@ export default function TaskCard({ task }: Props) {
                 type="checkbox"
                 checked={task.isCompleted}
                 onChange={handleCompletedClick}
-                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300"
+                className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 hover:cursor-pointer"
               />
               <label
                 htmlFor="completed-checkbox"

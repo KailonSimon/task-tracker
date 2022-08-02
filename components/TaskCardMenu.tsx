@@ -1,10 +1,18 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { AiFillCaretDown } from "react-icons/ai";
-import { duplicateTask, Task } from "../features/tasks/taskSlice";
+import {
+  deleteTask as unauthenticatedDeleteTask,
+  duplicateTask as unauthenticatedDuplicateTask,
+  Task,
+} from "../features/tasks/taskSlice";
 import { useAppDispatch } from "../hooks";
-import { removeTask } from "../features/tasks/taskSlice";
 import Modal from "./Modal";
+import {
+  useDeleteTaskMutation,
+  useDuplicateTaskMutation,
+} from "../services/tasks";
+import { useSession } from "next-auth/react";
 
 type Props = {
   task: Task;
@@ -13,20 +21,34 @@ type Props = {
 
 export default function TaskCardMenu({ task, handleEditClick }: Props) {
   const dispatch = useAppDispatch();
+  const { data: session } = useSession();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [deleteTask] = useDeleteTaskMutation();
+  const [duplicateTask] = useDuplicateTaskMutation();
   const handleDeleteClick = () => {
-    dispatch(removeTask(task.id));
+    if (session) {
+      deleteTask(task);
+    } else {
+      dispatch(unauthenticatedDeleteTask(task));
+    }
     setIsDeleteModalOpen(false);
   };
   const handleDuplicateClick = () => {
-    dispatch(duplicateTask(task.id));
+    if (session) {
+      duplicateTask(task.id);
+    } else {
+      dispatch(unauthenticatedDuplicateTask(task.id));
+    }
   };
 
   return (
     <>
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-full justify-center rounded-xl bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <Menu.Button
+            className="inline-flex w-full justify-center rounded-xl bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            disabled={task.isCompleted}
+          >
             Options
             <AiFillCaretDown
               className="ml-2 -mr-1 h-5 w-5 text-white hover:text-white"

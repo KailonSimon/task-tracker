@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
-import formatISO from "date-fns/formatISO";
 import { nanoid } from "nanoid";
+import { api } from "../../services/tasks";
 
 export type Task = {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   priorityLevel: string;
   dateAdded: string;
   isCompleted: boolean;
@@ -25,16 +25,8 @@ export const taskSlice = createSlice({
   name: "tasks",
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<any>) => {
-      const { name, description, priorityLevel } = action.payload;
-      state.tasks.push({
-        id: nanoid(),
-        name,
-        description,
-        priorityLevel,
-        dateAdded: formatISO(new Date()),
-        isCompleted: false,
-      });
+    addTask: (state, action: PayloadAction<Task>) => {
+      state.tasks.push(action.payload);
     },
     updateTask: (state, action: PayloadAction<any>) => {
       const index = state.tasks.findIndex(
@@ -45,14 +37,13 @@ export const taskSlice = createSlice({
     duplicateTask: (state, action: PayloadAction<string>) => {
       const task = state.tasks.find((task: Task) => task.id === action.payload);
       if (!task) {
-        console.error("No matching item");
         return;
       }
       state.tasks[state.tasks.length] = { ...task, id: nanoid() };
     },
-    removeTask: (state, action: PayloadAction<string>) => {
+    deleteTask: (state, action: PayloadAction<Task>) => {
       state.tasks = state.tasks.filter(
-        (item: Task) => item.id !== action.payload
+        (item: Task) => item.id !== action.payload.id
       );
     },
     toggleTaskCompleted: (state, action: PayloadAction<string>) => {
@@ -76,7 +67,7 @@ export const {
   addTask,
   updateTask,
   duplicateTask,
-  removeTask,
+  deleteTask,
   toggleTaskCompleted,
   updateTasksList,
   clearTasks,
