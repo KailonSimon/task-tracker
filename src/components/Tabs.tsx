@@ -1,5 +1,5 @@
 import { Tab } from "@headlessui/react";
-import { Task } from "../features/tasks/taskSlice";
+import { Task } from "../../features/tasks/taskSlice";
 import List from "./List";
 
 function classNames(...classes: any) {

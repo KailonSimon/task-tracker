@@ -5,13 +5,13 @@ import {
   deleteTask as unauthenticatedDeleteTask,
   duplicateTask as unauthenticatedDuplicateTask,
   Task,
-} from "../features/tasks/taskSlice";
-import { useAppDispatch } from "../hooks";
+} from "../../features/tasks/taskSlice";
+import { useAppDispatch } from "../../hooks";
 import Modal from "./Modal";
 import {
   useDeleteTaskMutation,
   useDuplicateTaskMutation,
-} from "../services/tasks";
+} from "../../services/tasks";
 import { useSession } from "next-auth/react";
 
 type Props = {

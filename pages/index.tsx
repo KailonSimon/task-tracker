@@ -13,14 +13,15 @@ import SearchInput from "../components/SearchInput";
 import { useState } from "react";
 import { useGetTasksQuery } from "../services/tasks";
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 
-const filterList = (data: Task[], filter: string) => {
+export function filterList(data: Task[], filter: string): Task[] {
   return data.filter(
     (task: Task) =>
       task.name.toLowerCase().startsWith(filter.toLowerCase()) ||
       task.description?.toLowerCase().startsWith(filter.toLowerCase())
   );
-};
+}
 
 const Home: NextPage = () => {
   let fullList = useAppSelector(selectTasks);
@@ -42,7 +43,11 @@ const Home: NextPage = () => {
   ];
 
   return (
-    <div>
+    <>
+      <Head>
+        <title>Task Tracker</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Layout>
         <div className="p-4 w-full flex flex-col items-center">
           <TaskListControls />
@@ -50,7 +55,7 @@ const Home: NextPage = () => {
           <Tabs tabs={tabs} />
         </div>
       </Layout>
-    </div>
+    </>
   );
 };
 

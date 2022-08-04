@@ -1,7 +1,7 @@
 import { AnimatePresence, Reorder } from "framer-motion";
 import React from "react";
-import { Task, updateTasksList } from "../features/tasks/taskSlice";
-import { useAppDispatch } from "../hooks";
+import { Task, updateTasksList } from "../../features/tasks/taskSlice";
+import { useAppDispatch } from "../../hooks";
 import TaskCard from "./TaskCard";
 
 const listVariants = {

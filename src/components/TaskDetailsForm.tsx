@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, KeyboardEvent } from "react";
-import { Task } from "../features/tasks/taskSlice";
+import { Task } from "../../features/tasks/taskSlice";
 import { nanoid } from "nanoid";
 import formatISO from "date-fns/formatISO";
 

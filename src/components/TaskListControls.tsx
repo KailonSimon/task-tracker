@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useAppDispatch } from "../hooks";
+import { useAppDispatch } from "../../hooks";
 import {
   addTask as unauthenticatedAddTask,
   Task,
-} from "../features/tasks/taskSlice";
+} from "../../features/tasks/taskSlice";
 import Modal from "./Modal";
 import TaskDetailsForm from "./TaskDetailsForm";
 import { useSession } from "next-auth/react";
-import { useAddTaskMutation } from "../services/tasks";
+import { useAddTaskMutation } from "../../services/tasks";
 
 export default function TaskListControls() {
   const dispatch = useAppDispatch();

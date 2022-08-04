@@ -1,16 +1,16 @@
 import React from "react";
 import { useState } from "react";
-import { useAppDispatch } from "../hooks";
-import { toggleTaskCompleted } from "../features/tasks/taskSlice";
+import { useAppDispatch } from "../../hooks";
+import { toggleTaskCompleted } from "../../features/tasks/taskSlice";
 import { format, parseISO, formatDistanceToNow } from "date-fns";
 import {
   Task,
   updateTask as unauthenticatedUpdateTask,
-} from "../features/tasks/taskSlice";
+} from "../../features/tasks/taskSlice";
 import TaskCardMenu from "./TaskCardMenu";
 import Modal from "./Modal";
 import TaskDetailsForm from "./TaskDetailsForm";
-import { useUpdateTaskMutation } from "../services/tasks";
+import { useUpdateTaskMutation } from "../../services/tasks";
 import { useSession } from "next-auth/react";
 
 type Props = {
