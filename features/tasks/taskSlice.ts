@@ -12,6 +12,10 @@ export type Task = {
   isCompleted: boolean;
 };
 
+export function isATask(obj: any): obj is Task {
+  return "type" in obj && obj.type === "Task";
+}
+
 type TaskListState = {
   tasks: Task[];
 };
