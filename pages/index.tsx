@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import Layout from "../components/Layout";
-import TaskListControls from "../components/TaskListControls";
-import Tabs from "../components/Tabs";
+import Layout from "../src/components/Layout";
+import TaskListControls from "../src/components/TaskListControls";
+import Tabs from "../src/components/Tabs";
 import { useAppSelector } from "../hooks";
 import {
   selectTasks,
@@ -9,7 +9,7 @@ import {
   selectCompletedTasks,
   Task,
 } from "../features/tasks/taskSlice";
-import SearchInput from "../components/SearchInput";
+import SearchInput from "../src/components/SearchInput";
 import { useState } from "react";
 import { useGetTasksQuery } from "../services/tasks";
 import { useSession } from "next-auth/react";
